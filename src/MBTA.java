@@ -7,37 +7,39 @@ public class MBTA {
 
     public MBTA() {
         lines = new HashMap<>();
-        ArrayList<String> redStops = new ArrayList<>();
-        redStops.addAll(Arrays.asList("South Station",
+        ArrayList<String> redStops = new ArrayList<>(Arrays.asList(
+                "South Station",
                 "Park Street",
                 "Kendall",
                 "Central",
                 "Harvard",
                 "Porter",
                 "Davis",
-                "Alewife"));
+                "Alewife"
+        ));
         lines.put("Red", redStops);
 
-        ArrayList<String> greenStops = new ArrayList<>();
-        greenStops.addAll(Arrays.asList(
+        ArrayList<String> greenStops = new ArrayList<>(Arrays.asList(
                 "Government Center",
                 "Park Street",
                 "Boylston",
                 "Arlington",
                 "Copley",
                 "Hynes",
-                "Kenmore"));
+                "Kenmore"
+        ));
         lines.put("Green", greenStops);
 
-        ArrayList<String> orangeStops = new ArrayList<>();
-        orangeStops.addAll(Arrays.asList("North Station",
+        ArrayList<String> orangeStops = new ArrayList<>(Arrays.asList(
+                "North Station",
                 "Haymarket",
                 "Park Street",
                 "State",
                 "Downtown Crossing",
                 "Chinatown",
                 "Back Bay",
-                "Forest Hills"));
+                "Forest Hills"
+        ));
         lines.put("Orange", orangeStops);
         intersection = "Park Street";
 
@@ -58,13 +60,13 @@ public class MBTA {
                 // calculate stops from start to intersection
                 int startIndex = lines.get(srcLine).indexOf(srcStation);
                 // System.out.println(startIndex);
-                int intIndex = lines.get(srcLine).indexOf("Park Street");
+                int intIndex = lines.get(srcLine).indexOf(intersection);
                 //  System.out.println(intIndex);
                 int stopsBeforeInt = Math.abs(intIndex - startIndex);
 
                 // System.out.println(stopsBeforeInt);
                 //calculate stops after intersection
-                int intersectionIndex = lines.get(desLine).indexOf("Park Street"); // get interection index in destination line
+                int intersectionIndex = lines.get(desLine).indexOf(intersection); // get interection index in destination line
                 //System.out.println("inter" +intersectionIndex);
 //            int startAfterInt = lines.get(desLine).indexOf(intersectionIndex);
 //            System.out.println("startAfterInt" + startAfterInt);
@@ -73,8 +75,9 @@ public class MBTA {
                 int stopsAfter = Math.abs(desInt - (intersectionIndex));
                 //   System.out.println(stopsAfter);
                 showRoutes(srcLine, srcStation, desLine, desStation);
-
-                return stopsBeforeInt + stopsAfter;
+int totalStops = stopsBeforeInt + stopsAfter;
+         //       System.out.println("totalll "+ totalStops);
+                return totalStops;
             }
         } else {
             System.out.println("Invalid line or station!!!");
@@ -105,70 +108,57 @@ public class MBTA {
         // if same line
         if (srcLine.equals(desLine)) {
             ArrayList<String> stopsBetween = lines.get(srcLine);
-            System.out.println(stopsBetween);
+           // System.out.println(stopsBetween);
             int startIndex = lines.get(srcLine).indexOf(srcStation);
             int endIndex = lines.get(srcLine).indexOf(desStation);
             if (startIndex >= 0 && endIndex <= stopsBetween.size()) {
-//                System.out.println("stat index: "+startIndex);
-//                System.out.println("end index " + endIndex);
                 if (startIndex < endIndex) {
-                    for (int i = startIndex+1 ; i <= endIndex-1; i++) {
+                    for (int i = startIndex + 1; i <= endIndex ; i++) {
                         System.out.println("Rider arrives at " + srcLine + " and " + stopsBetween.get(i));
                     }
                 } else {
-                    System.out.println("sdddddd");
-                    for (int i = endIndex; i >= startIndex; i--) {
+//                    System.out.println("sasa");
+//                    System.out.println(endIndex);
+//                    System.out.println(startIndex);
+                    for (int i = startIndex - 1; i >= endIndex ; i--) {
                         System.out.println("Rider arrives at " + srcLine + " and " + stopsBetween.get(i));
                     }
                 }
             }
-        }else{ // if different line
+        } else { // if different line
             // calculate stops from start to intersection
             int startIndex = lines.get(srcLine).indexOf(srcStation);
             // System.out.println(startIndex);
-            int intIndex = lines.get(srcLine).indexOf("Park Street");
+            int intIndex = lines.get(srcLine).indexOf(intersection);
             //  System.out.println(intIndex);
 
             ArrayList<String> stopsBetween1 = lines.get(srcLine);
-            System.out.println(stopsBetween1);
+           // System.out.println(stopsBetween1);
             if (startIndex >= 0 && intIndex <= stopsBetween1.size()) {
-//                System.out.println("stat index: "+startIndex);
-//                System.out.println("end index " + endIndex);
                 if (startIndex < intIndex) {
-                    for (int i = startIndex+1 ; i <= intIndex; i++) {
+                    for (int i = startIndex + 1; i <= intIndex; i++) {
                         System.out.println("Rider arrives at " + srcLine + " and " + stopsBetween1.get(i));
                     }
                 } else {
-                    System.out.println("sdddddd");
                     for (int i = intIndex; i >= startIndex; i--) {
                         System.out.println("Rider arrives at " + srcLine + " and " + stopsBetween1.get(i));
                     }
                 }
             }
 
-// =============================================================================
-            // System.out.println(stopsBeforeInt);
+            // print routes after changing the line
             ArrayList<String> stopsBetween2 = lines.get(desLine);
             //calculate stops after intersection
-            int intersectionIndex = lines.get(desLine).indexOf("Park Street"); // get interection index in destination line
-            System.out.println("Rider transfers from "+srcLine+" to "+desLine+" at Park Street.");
-            // System.out.println("inter" +intersectionIndex);
-//            int startAfterInt = lines.get(desLine).indexOf(intersectionIndex);
-//            System.out.println("startAfterInt" + startAfterInt);
+            int intersectionIndex = lines.get(desLine).indexOf(intersection); // get interection index in destination line
+            System.out.println("Rider transfers from " + srcLine + " to " + desLine + " at Park Street.");
             int desInt = lines.get(desLine).indexOf(desStation);
-              System.out.println(desInt);
-           // int stopsAfter = Math.abs(desInt - (intersectionIndex));
-            //   System.out.println(stopsAfter);
-
-            if (intersectionIndex >= 0 && intersectionIndex <= stopsBetween1.size()) {
-                System.out.println("stat index: "+startIndex);
-               System.out.println("end index " + desInt);
+            //System.out.println(desInt);
+            if (intersectionIndex >= 0 && intersectionIndex <= stopsBetween2.size()) {
                 if (intersectionIndex < desInt) {
-                    for (int i = intersectionIndex+1 ; i <= desInt; i++) {
+                    for (int i = intersectionIndex + 1; i <= desInt; i++) {
                         System.out.println("Rider arrives at " + desLine + " and " + stopsBetween2.get(i));
                     }
                 } else {
-                    System.out.println("sdddddd");
                     for (int i = desInt; i >= intersectionIndex; i--) {
                         System.out.println("Rider arrives at " + desLine + " and " + stopsBetween2.get(i));
                     }
@@ -176,37 +166,27 @@ public class MBTA {
             }
 
         }
-
-// Rider arrives at Red Line and Park Street.
-// Rider transfers from Red Line to Green Line at Park Street.
-// Rider arrives at Green Line and Boylston.
-// Rider arrives at Green Line and Arlington.
-// Rider arrives at Green Line and Copley.
         System.out.println("Rider exits the train at " + desLine + " and " + desStation + ".");
-
 
     }
 
     public static void main(String[] args) {
         MBTA mbta = new MBTA();
         // Valid tests
-//        System.out.println(stopsBetweenStations(
-//                "Red", "Alewife", "Red", "Alewife"
-//        )); //  0
-//
-//        System.out.println(stopsBetweenStations(
-//                "Red", "Alewife", "Red", "South Station"
-//        )); // 7
-//        System.out.println(stopsBetweenStations(
-//                "Red", "South Station", "Red", "Central"
-//        )); // 7
+        System.out.println(stopsBetweenStations(
+                "Red", "Alewife", "Red", "Alewife"
+        )); //  0
 
-//        System.out.println(stopsBetweenStations(
-//                "Red", "South Station", "Green", "Kenmore"
-//        )); //  6
+        System.out.println(stopsBetweenStations(
+                "Red", "Alewife", "Red", "South Station"
+        )); // 7
+
+        System.out.println(stopsBetweenStations(
+                "Red", "South Station", "Green", "Kenmore"
+        )); //  6
 
 
-        stopsBetweenStations("Red", "South Station", "Green", "Copley");
+        System.out.println(stopsBetweenStations("Red", "South Station", "Green", "Copley"));//4
 
 
         // invalid test cases
