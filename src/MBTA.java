@@ -99,19 +99,28 @@ public class MBTA {
                                   String desLine,
                                   String desStation) {
         System.out.println("Rider boards the train a " + srcLine + " and " + srcStation);
-//get station between
-
-        //if same line
+        // get station between start and destination stations
+        // if same line
         if (srcLine.equals(desLine)) {
-           ArrayList<String> stopsBetween = lines.get(srcLine);
+            ArrayList<String> stopsBetween = lines.get(srcLine);
+            System.out.println(stopsBetween);
             int startIndex = lines.get(srcLine).indexOf(srcStation);
             int endIndex = lines.get(srcLine).indexOf(desStation);
-           if (startIndex >= 0 && endIndex <= stopsBetween.size() && endIndex > startIndex){
-              ArrayList<String> stopsName = new ArrayList<>(stopsBetween.subList(startIndex,endIndex));
-               System.out.println("Rider arrives at "+srcLine+" and "+stopsName);
-
-           }
-
+            if (startIndex >= 0 && endIndex <= stopsBetween.size()) {
+//                System.out.println("stat index: "+startIndex);
+//                System.out.println("end index " + endIndex);
+                if (startIndex < endIndex) {
+                    for (int i = startIndex+1 ; i <= endIndex-1; i++) {
+                        System.out.println("Rider arrives at " + srcLine + " and " + stopsBetween.get(i));
+                    }
+                } else {
+                    System.out.println("sdddddd");
+                    for (int i = endIndex; i >= startIndex; i--) {
+                        System.out.println("Rider arrives at " + srcLine + " and " + stopsBetween.get(i));
+                    }
+                }
+            }
+        }else{ // if differnt line
 
         }
 
@@ -134,6 +143,9 @@ public class MBTA {
 
         System.out.println(stopsBetweenStations(
                 "Red", "Alewife", "Red", "South Station"
+        )); // 7
+        System.out.println(stopsBetweenStations(
+                "Red", "South Station", "Red", "Central"
         )); // 7
 
         System.out.println(stopsBetweenStations(
