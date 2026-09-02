@@ -72,6 +72,8 @@ public class MBTA {
                 //    System.out.println(desInt);
                 int stopsAfter = Math.abs(desInt - (intersectionIndex));
                 //   System.out.println(stopsAfter);
+                showRoutes(srcLine, srcStation, desLine, desStation);
+
                 return stopsBeforeInt + stopsAfter;
             }
         } else {
@@ -120,11 +122,62 @@ public class MBTA {
                     }
                 }
             }
-        }else{ // if differnt line
+        }else{ // if different line
+            // calculate stops from start to intersection
+            int startIndex = lines.get(srcLine).indexOf(srcStation);
+            // System.out.println(startIndex);
+            int intIndex = lines.get(srcLine).indexOf("Park Street");
+            //  System.out.println(intIndex);
+
+            ArrayList<String> stopsBetween1 = lines.get(srcLine);
+            System.out.println(stopsBetween1);
+            if (startIndex >= 0 && intIndex <= stopsBetween1.size()) {
+//                System.out.println("stat index: "+startIndex);
+//                System.out.println("end index " + endIndex);
+                if (startIndex < intIndex) {
+                    for (int i = startIndex+1 ; i <= intIndex; i++) {
+                        System.out.println("Rider arrives at " + srcLine + " and " + stopsBetween1.get(i));
+                    }
+                } else {
+                    System.out.println("sdddddd");
+                    for (int i = intIndex; i >= startIndex; i--) {
+                        System.out.println("Rider arrives at " + srcLine + " and " + stopsBetween1.get(i));
+                    }
+                }
+            }
+
+// =============================================================================
+            // System.out.println(stopsBeforeInt);
+            ArrayList<String> stopsBetween2 = lines.get(desLine);
+            //calculate stops after intersection
+            int intersectionIndex = lines.get(desLine).indexOf("Park Street"); // get interection index in destination line
+            System.out.println("Rider transfers from "+srcLine+" to "+desLine+" at Park Street.");
+            // System.out.println("inter" +intersectionIndex);
+//            int startAfterInt = lines.get(desLine).indexOf(intersectionIndex);
+//            System.out.println("startAfterInt" + startAfterInt);
+            int desInt = lines.get(desLine).indexOf(desStation);
+              System.out.println(desInt);
+           // int stopsAfter = Math.abs(desInt - (intersectionIndex));
+            //   System.out.println(stopsAfter);
+
+            if (intersectionIndex >= 0 && intersectionIndex <= stopsBetween1.size()) {
+                System.out.println("stat index: "+startIndex);
+               System.out.println("end index " + desInt);
+                if (intersectionIndex < desInt) {
+                    for (int i = intersectionIndex+1 ; i <= desInt; i++) {
+                        System.out.println("Rider arrives at " + desLine + " and " + stopsBetween2.get(i));
+                    }
+                } else {
+                    System.out.println("sdddddd");
+                    for (int i = desInt; i >= intersectionIndex; i--) {
+                        System.out.println("Rider arrives at " + desLine + " and " + stopsBetween2.get(i));
+                    }
+                }
+            }
 
         }
 
-        // Rider arrives at Red Line and Park Street.
+// Rider arrives at Red Line and Park Street.
 // Rider transfers from Red Line to Green Line at Park Street.
 // Rider arrives at Green Line and Boylston.
 // Rider arrives at Green Line and Arlington.
@@ -137,20 +190,24 @@ public class MBTA {
     public static void main(String[] args) {
         MBTA mbta = new MBTA();
         // Valid tests
-        System.out.println(stopsBetweenStations(
-                "Red", "Alewife", "Red", "Alewife"
-        )); //  0
+//        System.out.println(stopsBetweenStations(
+//                "Red", "Alewife", "Red", "Alewife"
+//        )); //  0
+//
+//        System.out.println(stopsBetweenStations(
+//                "Red", "Alewife", "Red", "South Station"
+//        )); // 7
+//        System.out.println(stopsBetweenStations(
+//                "Red", "South Station", "Red", "Central"
+//        )); // 7
 
-        System.out.println(stopsBetweenStations(
-                "Red", "Alewife", "Red", "South Station"
-        )); // 7
-        System.out.println(stopsBetweenStations(
-                "Red", "South Station", "Red", "Central"
-        )); // 7
+//        System.out.println(stopsBetweenStations(
+//                "Red", "South Station", "Green", "Kenmore"
+//        )); //  6
 
-        System.out.println(stopsBetweenStations(
-                "Red", "South Station", "Green", "Kenmore"
-        )); //  6
+
+        stopsBetweenStations("Red", "South Station", "Green", "Copley");
+
 
         // invalid test cases
         System.out.println(stopsBetweenStations(
